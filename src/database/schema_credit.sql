@@ -55,7 +55,9 @@ CREATE INDEX IF NOT EXISTS idx_loans_borrower ON fact_loans(borrower_id);
 CREATE INDEX IF NOT EXISTS idx_ecl_loan_date ON fact_ecl_impairment(loan_id, calc_date);
 
 
--- -------------------------------------------------------------------------------------
+
+
+-- -------------------------------------
 
 
 -- Create Table for Storing Feature Information Values (IV)
@@ -64,5 +66,24 @@ CREATE TABLE IF NOT EXISTS feature_information_values (
     feature_name VARCHAR(100) UNIQUE NOT NULL,
     information_value NUMERIC(8, 6) NOT NULL,
     predictive_power VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+
+
+-- -------------------------------------
+
+
+-- Table for Storing Probability of Default (PD) Predictions & Credit Scores
+CREATE TABLE IF NOT EXISTS pd_model_predictions (
+    pred_id SERIAL PRIMARY KEY,
+    borrower_code VARCHAR(20) UNIQUE NOT NULL,
+    pd_12m NUMERIC(8, 6) NOT NULL,
+    pd_lifetime NUMERIC(8, 6) NOT NULL,
+    scorecard_points INT NOT NULL,
+    model_type VARCHAR(50) NOT NULL,
+    calc_date DATE NOT NULL DEFAULT CURRENT_DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

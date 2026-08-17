@@ -2,9 +2,11 @@
 # IFRS 9 CREDIT SCORECARD: WOE BINNING & INFORMATION VALUE (R)
 # ====================================================================
 
-# 0. Read Environment Variables from .env File
+# Read real password from .env file
 if (file.exists(".env")) {
   readRenviron(".env")
+} else if (file.exists("../.env")) {
+  readRenviron("../.env")
 }
 
 
@@ -97,10 +99,10 @@ for (i in 1:nrow(iv_df)) {
 # 5. Optimal WoE Binning Transformation
 cat("⚡ Performing Optimal Monotonic WoE Binning...\n")
 
-# Option A: Tell woebin to skip ID columns
+# Pass var_skip = "borrower_code" to bypass the interactive menu prompt
 bins <- woebin(credit_df, y = "is_defaulted", var_skip = "borrower_code")
 
-# Export WoE Binned Data (retains borrower_code in final output)
+# Export WoE Binned Data
 credit_woe <- woebin_ply(credit_df, bins)
 
 # Write WoE dataset to CSV for Python ML modeling
