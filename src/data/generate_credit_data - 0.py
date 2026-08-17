@@ -1,6 +1,7 @@
 import sys
 import os
 
+# Ensure root folder is in python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 import numpy as np
@@ -9,9 +10,25 @@ from datetime import datetime, timedelta
 from sqlalchemy import text
 from src.database.db_connection import get_db_engine
 
+def create_tables_if_not_exist(engine):
+    """Reads schema_credit.sql and creates tables if they do not exist."""
+    schema_path = os.path.join(os.path.dirname(__file__), '../database/schema_credit.sql')
+    if os.path.exists(schema_path):
+        print("🛠️ Checking/Creating database tables from schema_credit.sql...")
+        with open(schema_path, 'r') as f:
+            schema_sql = f.read()
+        with engine.begin() as conn:
+            conn.execute(text(schema_sql))
+        print("✅ Database tables are ready.")
+    else:
+        print(f"⚠️ Warning: Could not find schema file at {schema_path}")
+
 def generate_and_load_credit_data(num_records=2500, seed=42):
     np.random.seed(seed)
     engine = get_db_engine()
+
+    # Create tables first
+    create_tables_if_not_exist(engine)
 
     print(f"🔄 Generating realistic credit portfolio ({num_records} loans)...")
 
