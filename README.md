@@ -51,25 +51,25 @@ An integrated **Credit Risk Scorecard and IFRS 9 Impairment Engine** built for b
 
 ---
 
+---
+
 ## 📐 Mathematical & Econometric Formulations
 
 $$
-\text{WoE}_i = \ln \left( \frac{\% \text{ Non-Defaults}_i}{\% \text{ Defaults}_i} \right)
+\text{WoE}_i = \ln \left( \frac{\text{Ratio Non-Defaults}_i}{\text{Ratio Defaults}_i} \right)
 $$
 
 $$
-\text{IV} = \sum_{i=1}^k \left( \% \text{ Non-Defaults}_i - \% \text{ Defaults}_i \right) \times \text{WoE}_i
+\text{IV} = \sum_{i=1}^k \left( \text{Ratio Non-Defaults}_i - \text{Ratio Defaults}_i \right) \times \text{WoE}_i
 $$
 
 $$
-\text{ECL}_{\text{Loan}} = \text{PD}_{\text{Stage}} \times \text{LGD} \times \text{EAD}
+\text{ECL} = \text{PD} \times \text{LGD} \times \text{EAD}
 $$
 
 $$
-\text{Gini Coefficient} = 2 \times \text{AUC} - 1 = 0.7467
+\text{Gini} = 2 \times \text{AUC} - 1 = 0.7467
 $$
-
----
 
 ## 📊 Power BI Dashboard Previews
 
