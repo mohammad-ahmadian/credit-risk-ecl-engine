@@ -1,5 +1,3 @@
-### Beschreibung
-
 # IFRS 9 Credit Risk Scorecard & Expected Credit Loss (ECL) Engine
 
 [![R](https://img.shields.io/badge/R-4.3-276DC3?style=flat&logo=r&logoColor=white)](https://www.r-project.org/)
@@ -17,6 +15,8 @@
 
 ## 🇩🇪 Deutsch: Projektübersicht
 
+### Beschreibung
+
 Ein integriertes **Kreditrisiko- und IFRS 9 Impairment-System** für Banken und Finanzdienstleister. Das System führt **Weight of Evidence (WoE)** Binning und **Information Value (IV)** Feature Selection in **R** durch, trainiert **Probability of Default (PD)** Modelle (Logistische Regression & XGBoost, $\text{Gini} = 0.7467$, $\text{KS} = 64.56\%$) in **Python**, berechnet **IFRS 9 3-Stufen Expected Credit Losses ($\text{ECL} = \text{PD} \times \text{LGD} \times \text{EAD}$)** und generiert automatisiert prüfungsfähige **Excel-Finanzmodelle** sowie interaktive **Power BI Dashboards**.
 
 ### Hauptmerkmale
@@ -29,6 +29,46 @@ Ein integriertes **Kreditrisiko- und IFRS 9 Impairment-System** für Banken und 
   * **Stufe 3 (Defaulted)**: Vollständige Lifetime-ECL für ausgefallene Kredite ($\text{DPD} \ge 90$).
 * **Automatisiertes Excel-Finanzmodell**: Generierung prüfungsfähiger Excel-Arbeitsmappen (`reports/ifrs9_ecl_summary_model.xlsx`) mittels `openpyxl` mit formatierten Staging-Tabellen und Einzelwertberichtigungen.
 * **SQL Reporting Layer & Power BI Dashboard**: PostgreSQL Reporting Views und ein 2-seitiges Power BI Dashboard zur visuellen Überwachung von Portfolio-Risikokennzahlen, Risikovorsorge und Scorecard-Kalibrierungen.
+
+### Technologie-Stack
+
+* **Datenbank**: PostgreSQL 16 (Star Schema, Foreign Keys, SQL Views)
+* **Statistisches Feature Engineering**: R 4.3 (`scorecard`, `DBI`, `RPostgres`, `dplyr`)
+* **Machine Learning & PD Modellierung**: Python 3.11 (`scikit-learn`, `xgboost`, `scipy`, `SQLAlchemy`)
+* **Finanzmodellierung**: Microsoft Excel (`openpyxl` automatisierte Formatierung)
+* **Business Intelligence**: Power BI Desktop (DAX-Measures, Staging-Heatmaps)
+
+### ▶ Mathematische & Ökonometrische Formeln
+
+$$
+\text{WoE}_i = \ln \left( \frac{\text{Verhältnis Nicht-Ausfälle}_i}{\text{Verhältnis Ausfälle}_i} \right)
+$$
+
+$$
+\text{IV} = \sum_{i=1}^k \left( \text{Verhältnis Nicht-Ausfälle}_i - \text{Verhältnis Ausfälle}_i \right) \times \text{WoE}_i
+$$
+
+$$
+\text{ECL} = \text{PD} \times \text{LGD} \times \text{EAD}
+$$
+
+$$
+\text{Gini} = 2 \times \text{AUC} - 1 = 0.7467
+$$
+
+### ▶ Power BI Dashboard-Vorschau
+
+#### Seite 1: Executive IFRS 9 Portfolio-Impairment Übersicht
+
+![IFRS 9 Portfolio Impairment](reports/page1_ifrs9_staging_overview.png)
+
+#### Seite 2: Credit Scorecard Analytik & Feature-Prädiktionskraft (IV)
+
+![Scorecard Analytics](reports/page2_scorecard_iv_analytics.png)
+
+### ▶ Prüfungsfähiges Excel-Finanzmodell
+
+Automatisierter Modellbericht: `reports/ifrs9_ecl_summary_model.xlsx`
 
 ---
 
@@ -49,11 +89,15 @@ An integrated **Credit Risk Scorecard and IFRS 9 Impairment Engine** built for b
 * **Automated Excel Financial Model**: Openpyxl-based pipeline exporting corporate-formatted Excel workbooks (`reports/ifrs9_ecl_summary_model.xlsx`) with staging summaries and top impaired exposures.
 * **SQL Reporting Layer & Power BI Dashboard**: PostgreSQL reporting views and a 2-page Power BI dashboard monitoring portfolio ECL provisions, coverage ratios, and scorecard calibration curves.
 
----
+### Tech Stack
 
----
+* **Database**: PostgreSQL 16 (Star Schema, Foreign Keys, SQL Views)
+* **Statistical Feature Engineering**: R 4.3 (`scorecard`, `DBI`, `RPostgres`, `dplyr`)
+* **Machine Learning & PD Modeling**: Python 3.11 (`scikit-learn`, `xgboost`, `scipy`, `SQLAlchemy`)
+* **Financial Modeling**: Microsoft Excel (`openpyxl` automated formatting)
+* **Business Intelligence**: Power BI Desktop (DAX Measures, Staging Heatmaps)
 
-## 📐 Mathematical & Econometric Formulations
+### ▶ Mathematical & Econometric Formulations
 
 $$
 \text{WoE}_i = \ln \left( \frac{\text{Ratio Non-Defaults}_i}{\text{Ratio Defaults}_i} \right)
@@ -71,22 +115,16 @@ $$
 \text{Gini} = 2 \times \text{AUC} - 1 = 0.7467
 $$
 
-## 📊 Power BI Dashboard Previews
+### ▶ Power BI Dashboard Previews
 
-### Page 1: Executive IFRS 9 Portfolio Impairment Overview
+#### Page 1: Executive IFRS 9 Portfolio Impairment Overview
 
 ![IFRS 9 Portfolio Impairment](reports/page1_ifrs9_staging_overview.png)
 
-### Page 2: Credit Scorecard Analytics & Feature Predictive Power (IV)
+#### Page 2: Credit Scorecard Analytics & Feature Information Value (IV)
 
 ![Scorecard Analytics](reports/page2_scorecard_iv_analytics.png)
 
----
+### ▶ Auditable Financial Excel Model
 
-## 🛠️ Technology Stack
-
-* **Database**: PostgreSQL 16 (Star Schema, Foreign Keys, SQL Views)
-* **Statistical Feature Engineering**: R 4.3 (`scorecard`, `DBI`, `RPostgres`, `dplyr`)
-* **Machine Learning & PD Modeling**: Python 3.11 (`scikit-learn`, `xgboost`, `scipy`, `SQLAlchemy`)
-* **Financial Modeling**: Microsoft Excel (`openpyxl` automated formatting)
-* **Business Intelligence**: Power BI Desktop (DAX Measures, Staging Heatmaps)
+Automated Financial Model Report: `reports/ifrs9_ecl_summary_model.xlsx`
